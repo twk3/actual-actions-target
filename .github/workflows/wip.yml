@@ -7,6 +7,11 @@ on:
 
 jobs:
   add_wip_prefix:
+    if: |
+      join(github.event.pull_request.requested_reviewers) == ''
+        && !contains(github.event.pull_request.title, 'WIP')
+        && !contains(github.event.pull_request.labels.*.name, 'WIP')
+        && github.pull_request.draft != true
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
